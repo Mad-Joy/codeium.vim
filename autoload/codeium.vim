@@ -228,7 +228,7 @@ function! s:RenderCurrentCompletion() abort
       endif
 
       call add(s:nvim_extmark_ids, data.id)
-      call nvim_buf_set_extmark(0, nvim_create_namespace('codeium'), row - 1, 0, data)
+      call nvim_buf_set_extmark(0, nvim_create_namespace('codeium'), row, 0, data) "<MadJoy> Alteração feita para que a exibição das sugestões comece uma linha abaixo para uma melhor integração com o nvim-cmp
     else
       if part.type ==# 'COMPLETION_PART_TYPE_INLINE'
         call prop_add(row, _col + diff, {'type': s:hlgroup, 'text': text})
