@@ -168,7 +168,7 @@ function! s:RenderCurrentCompletion() abort
       let _col = inline_cumulative_cols + len(get(part, 'prefix', '')) + 1
       let inline_cumulative_cols = _col - 1
     else
-      let _col = len(get(part, 'prefix', '')) + 1
+      let _col = col('.') - col('$') + len(get(part, 'prefix', '')) + 1 "<MadJoy> Link suggestions to cursor position
     endif
     let text = part.text
 
