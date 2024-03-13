@@ -213,7 +213,7 @@ function! s:RenderCurrentCompletion() abort
     endif
 
     if has('nvim')
-      let _virtcol = virtcol([row, _col+diff])
+      let _virtcol = _col " virtcol([row, _col+diff]) " <MadJoy> Exibir o texto virtual das sugestões na primeira coluna após o cursor *SEMPRE* para melhor integração com o nvim-cmp
       let data = {'id': idx + 1, 'hl_mode': 'combine', 'virt_text_win_col': _virtcol - 1}
       if part.type ==# 'COMPLETION_PART_TYPE_INLINE_MASK'
         let data.virt_text = [[text, s:hlgroup]]
@@ -228,7 +228,7 @@ function! s:RenderCurrentCompletion() abort
       endif
 
       call add(s:nvim_extmark_ids, data.id)
-      call nvim_buf_set_extmark(0, nvim_create_namespace('codeium'), row, 0, data) "<MadJoy> Alteração feita para que a exibição das sugestões comece uma linha abaixo para uma melhor integração com o nvim-cmp
+      call nvim_buf_set_extmark(0, nvim_create_namespace('codeium'), row, 0, data) "<MadJoy> Exibir o texto virtual das sugestões uma linha abaixo do cursor para melhor intrgação com o nvim-cmp
     else
       if part.type ==# 'COMPLETION_PART_TYPE_INLINE'
         call prop_add(row, _col + diff, {'type': s:hlgroup, 'text': text})
