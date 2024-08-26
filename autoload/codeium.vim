@@ -242,7 +242,7 @@ function! s:RenderCurrentCompletion() abort
       " Set priority high so that completions appear above LSP inlay hints
       let priority = get(b:, 'codeium_virtual_text_priority',
                   \ get(g:, 'codeium_virtual_text_priority', 65535))
-      let _virtcol = _col " virtcol([row, _col+diff]) <madjoy>Exibe as sugestões uma linha a baixo do cursor para melhor integração com o nvim-cmp</madjoy>
+      let _virtcol = _col " virtcol([row, _col+diff]) <madjoy>Display virtual text suggestions one line below the cursor for better integration with nvim-cmp</madjoy>
       let data = {'id': idx + 1, 'hl_mode': 'combine', 'virt_text_win_col': _virtcol - 1, 'priority': priority }
       if part.type ==# 'COMPLETION_PART_TYPE_INLINE_MASK'
         let data.virt_text = [[text, s:hlgroup]]
@@ -257,7 +257,7 @@ function! s:RenderCurrentCompletion() abort
       endif
 
       call add(s:nvim_extmark_ids, data.id)
-      call nvim_buf_set_extmark(0, nvim_create_namespace('codeium'), row, 0, data) <madjoy>Exibe as sugestões na primeira coluna após o cursor para melhor integração com o nvim-cmp</madjoy>
+      call nvim_buf_set_extmark(0, nvim_create_namespace('codeium'), row, 0, data) <madjoy>Display virtual text suggestions in the first column after the cursor for better integration with nvim-cmp</madjoy>
     else
       if part.type ==# 'COMPLETION_PART_TYPE_INLINE'
         call prop_add(row, _col + diff, {'type': s:hlgroup, 'text': text})
