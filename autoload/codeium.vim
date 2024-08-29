@@ -257,7 +257,7 @@ function! s:RenderCurrentCompletion() abort
       endif
 
       call add(s:nvim_extmark_ids, data.id)
-      call nvim_buf_set_extmark(0, nvim_create_namespace('codeium'), row, 0, data) <madjoy>Display virtual text suggestions in the first column after the cursor for better integration with nvim-cmp</madjoy>
+      call nvim_buf_set_extmark(0, nvim_create_namespace('codeium'), row, 0, data) " <madjoy>Display virtual text suggestions in the first column after the cursor for better integration with nvim-cmp</madjoy>
     else
       if part.type ==# 'COMPLETION_PART_TYPE_INLINE'
         call prop_add(row, _col + diff, {'type': s:hlgroup, 'text': text})
