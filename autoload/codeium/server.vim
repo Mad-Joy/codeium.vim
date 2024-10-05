@@ -1,5 +1,5 @@
-let s:language_server_version = '1.14.11'
-let s:language_server_sha = '071907d082576067b0c7a5f2f7659958865d751e'
+let s:language_server_version = '1.20.8'
+let s:language_server_sha = '37f12b83df389802b7d4e293b3e1a986aca289c0'
 let s:root = expand('<sfile>:h:h:h')
 let s:bin = v:null
 
@@ -185,9 +185,12 @@ function! codeium#server#Start(...) abort
   let config = get(g:, 'codeium_server_config', {})
   if has_key(config, 'portal_url') && !empty(config.portal_url)
     let response = system('curl -s ' . config.portal_url . '/api/version')
-    if v:shell_error != 0
-      let s:language_server_version = '1.14.11'
-      let s:language_server_sha = '071907d082576067b0c7a5f2f7659958865d751e'
+    if v:shell_error == '0'
+      let s:language_server_version = response
+      let s:language_server_sha = 'enterprise-' . s:language_server_version
+    else
+      call codeium#log#Error('Failed to fetch version from ' . config.portal_url)
+      call codeium#log#Error(v:shell_error)
     endif
   endif
 
@@ -276,7 +279,7 @@ function! s:ActuallyStart() abort
     let args += ['--portal_url', get(config, 'portal_url', 'https://codeium.example.com')]
   endif
   " If either of these is set, only one vim window (with any number of buffers) will work with Codeium.
-  " Opening other vim windows won't be able to use Codeium features. 
+  " Opening other vim windows won't be able to use Codeium features.
   if has_key(chat_ports, 'web_server') && !empty(chat_ports.web_server)
     let args += ['--chat_web_server_port', chat_ports.web_server]
   endif
